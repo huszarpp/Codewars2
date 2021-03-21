@@ -84,10 +84,9 @@ public class RaceResultRegister {
 
         try (Connection connection = getConnection()) {
             String sql = "" +
-                    "SELECT competitor_name, race_result.id " +
+                    "SELECT id, competitor_name " +
                     "FROM competitor " +
-                    "INNER JOIN race_result ON competitor.id = race_result.competitor_id " +
-                    "WHERE competitor_id = NULL;";
+                    "WHERE id NOT IN (SELECT competitor_id FROM race_result)";
             PreparedStatement pst = connection.prepareStatement(sql);
             ResultSet rst = pst.executeQuery();
             while (rst.next()) {
